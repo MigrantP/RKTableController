@@ -116,6 +116,7 @@ typedef NSInteger RKTableControllerState;
 ///-----------------------------------------------------------------------------
 
 @property (nonatomic, weak)   id<RKAbstractTableControllerDelegate> delegate;
+@property (nonatomic, weak)   id<UIScrollViewDelegate> scrollViewDelegate;
 @property (nonatomic, weak, readonly) UIViewController *viewController;
 @property (nonatomic, weak, readonly) UITableView *tableView;
 @property (nonatomic, assign)   UITableViewRowAnimation defaultRowAnimation;

@@ -1323,13 +1323,58 @@ NSString * RKStringDescribingTransitionFromTableControllerStateToState(RKTableCo
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self removeSwipeView:YES];
+    if (self.scrollViewDelegate && [self.scrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+        [self.scrollViewDelegate scrollViewWillBeginDragging:scrollView];
+    } else {
+        [self removeSwipeView:YES];
+    }
 }
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView
 {
-    [self removeSwipeView:NO];
-    return YES;
+    if (self.scrollViewDelegate && [self.scrollViewDelegate respondsToSelector:@selector(scrollViewShouldScrollToTop:)]) {
+        return [self.scrollViewDelegate scrollViewShouldScrollToTop:scrollView];
+    } else {
+        [self removeSwipeView:NO];
+        return YES;
+
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if ([self.scrollViewDelegate respondsToSelector:@selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+        [self.scrollViewDelegate scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if ([self.scrollViewDelegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)]) {
+        [self.scrollViewDelegate scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([self.scrollViewDelegate respondsToSelector:@selector(scrollViewDidEndDecelerating:)]) {
+        [self.scrollViewDelegate scrollViewDidEndDecelerating:scrollView];
+    }
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    if ([self.scrollViewDelegate respondsToSelector:@selector(scrollViewDidEndScrollingAnimation:)]) {
+        [self.scrollViewDelegate scrollViewDidEndScrollingAnimation:scrollView];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([self.scrollViewDelegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
+        [self.scrollViewDelegate scrollViewDidScroll:scrollView];
+    }
 }
 
 - (void)reloadRowForObject:(id)object withRowAnimation:(UITableViewRowAnimation)rowAnimation
